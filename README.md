@@ -1,10 +1,14 @@
-### get_spa_type.py: Get spa types
+### spaTyper.py: Get spa types
 
-Version: 0.1.0
+
+Version: 0.2.0
 
 License: GPLv3
 
-USAGE: python get_spa_type.py fasta_file.fa
+USAGE: python3 spaTyper.py [-h] [-r REPEAT_FILE] [-o REPEAT_ORDER_FILE]
+                   [-f FASTA [FASTA ...]] [-g GLOB] 
+                   [-e] [-c] [--version]
+                   fasta_file.fa
 
 Prints spa type to stdout - egenomics letter combination and then the ridom spa type.
 
@@ -19,30 +23,33 @@ optional arguments:
                         (http://spa.ridom.de/dynamic/sparepeats.fasta)
   -o REPEAT_ORDER_FILE, --repeat_order_file REPEAT_ORDER_FILE
                         List spa types and order of repeats
-                        (http://spaserver2.ridom.de/dynamic/spatypes.txt)
+                        (http://spa.ridom.de/dynamic/spatypes.txt)
   -f FASTA [FASTA ...], --fasta FASTA [FASTA ...]
                         List of one or more fasta files.
   -g GLOB, --glob GLOB  Uses unix style pathname expansion to run spa typing
                         on all files. If your shell autoexpands wildcards use
                         -f.
-  -s, --skip_enrich     Skip enrichment (for already enriched (sanger) DNA).
+  -e, --do_enrich       Do PCR product enrichment. [Default: False]
   -c, --clean_output    Make output clean
   --version             show program's version number and exit
-
 
 ```
 
 ## Installation
-Just clone this repository or download the python script
+Clone the repository or download the python script. In a future, pip download will be available. 
 
-Only requires python 2.7.x
-
-If this script is unable to download files over HTTP you will need to provide the repeat sequence and order files from the ridom spa server.
-
+Requires python 3
 
 ## How it works
 
-The script searches for 50bp to 5000bp sequences produced by the following primer sets
+Given a fasta file or multiple fasta files, this script identifies the repeats and the order and generates a 
+spa type.
+
+The repeat sequences and repeat orders found on http://spaserver2.ridom.de/ are used to identify the spa type of each enriched sequence.
+
+Ridom spa type and the egenomics repeat sequence are then reported back to the user.
+
+If enriched option provided, the script searches for 50bp to 5000bp sequences produced by the following primer sets
 ```
 TAAAGACGATCCTTCGGTGAG, CAGCAGTAGTGCCGTTTGCTT
 AGACGATCCTTCGGTGAGC, GCTTTTGCAATGTCATTTACTG
@@ -52,10 +59,8 @@ CAACGCAATGGTTTCATCCA, GCTTTTGCAATGTCATTTACTG
 
 If an enriched sequence is found by a primer set, subsequent primer sets are not used.
 
-The repeat sequences and repeat orders found on http://spaserver2.ridom.de/ are used to identify the spa type of each enriched sequence.
 
-Ridom spa type and the egenomics repeat sequence are then reported back to the user.
+## Copyright
+Original code written by mjsull.
 
-
-
-written by mjsull.
+Jose F. Sanchez-Herrero updated the code, change to python3, and set to use it as a module
