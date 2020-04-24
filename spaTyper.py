@@ -35,8 +35,8 @@ parser.add_argument('-g', '--glob', action='store',
                     help='Uses unix style pathname expansion to run spa typing on all files. '
                         'If your shell autoexpands wildcards use -f.')
 
-parser.add_argument("-s", '--skip_enrich', action="store_true", default=False, 
-                    help="Skip enrichment.")
+parser.add_argument("-e", '--do_enrich', action="store_true", default=False, 
+                    help="Do PCR product enrichment. [Default: False]")
 
 parser.add_argument("-c", "--clean_output", action="store_true", default=False, 
                     help="Make output clean")
@@ -97,7 +97,7 @@ if not args.clean_output:
     sys.stdout.write('FILENAME\tEGENOMICS_SPA_TYPE\tRIDOM_SPA_TYPE\n')
 
 for i in fasta_list:
-    the_out = spaTyper.spa_typing.findPattern(i, seqDict, letDict, typeDict, seqLengths, not args.skip_enrich)
+    the_out = spaTyper.spa_typing.findPattern(i, seqDict, letDict, typeDict, seqLengths, args.do_enrich)
     if not args.clean_output:
         sys.stdout.write('Spa type:\t' + '\t'.join(the_out) + '\n')
     else:

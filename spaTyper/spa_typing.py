@@ -45,7 +45,7 @@ def getSpaTypes(reps, orders):
     return seqDict, letDict, typeDict, seqLengths
 
 ####################################################
-def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich=True):
+def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich):
     """
     Finds the Spa type given the repeat order
     
