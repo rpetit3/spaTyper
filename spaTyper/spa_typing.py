@@ -65,18 +65,21 @@ def findPattern(qDict, seqDict, letDict, typeDict, seqLengths, enrich, debug):
             print ("## Debug: enrich sequences with primer seqs")
         
         rep_list = []
-        seq_list = spaTyper.enricher.enrichSeq.check_primers()
+        seq_list = spaTyper.enricher.enrichSeq.check_primers(qDict)
         for i in seq_list:
             pattern = findPattern_sequence(i, seqDict, seqLengths, debug)
             if pattern:
                 type_return = findPattern_type(pattern, letDict, typeDict)
                 rep_list.append(type_return)
+        
+        return (seq_list)
+        
     else:
         if debug:
             print ("## Debug: use all sequences")
         
         dict_repeats = {}
-        for i in qDict:
+        for i in qDict.keys():
             pattern = findPattern_sequence(qDict[i], seqDict, seqLengths, debug)
             if pattern:
                 type_return = findPattern_type(pattern, letDict, typeDict)

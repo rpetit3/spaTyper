@@ -3,7 +3,7 @@
 import spaTyper.utils
 
 ####################################################
-def check_primers():
+def check_primers(qDict):
     """
     Progress through a set of primers looking for an enriched sequence.
     
@@ -15,19 +15,19 @@ def check_primers():
     """
 
     # 
-    for i in qDict:
+    for i in qDict.keys():
         enriched_seqs = enrichSeq(qDict[i].upper(), 'TAAAGACGATCCTTCGGTGAG', 'CAGCAGTAGTGCCGTTTGCTT')
         seq_list += enriched_seqs
     if seq_list == []:
-        for i in qDict:
+        for i in qDict.keys():
             enriched_seqs = enrichSeq(qDict[i].upper(), 'AGACGATCCTTCGGTGAGC', 'GCTTTTGCAATGTCATTTACTG')
             seq_list += enriched_seqs
     if seq_list == []:
-        for i in qDict:
+        for i in qDict.keys():
             enriched_seqs = enrichSeq(qDict[i].upper(), 'ATAGCGTGATTTTGCGGTT', 'CTAAATATAAATAATGTTGTCACTTGGA')
             seq_list += enriched_seqs
     if seq_list == []:
-        for i in qDict:
+        for i in qDict.keys():
             enriched_seqs = enrichSeq(qDict[i].upper(), 'CAACGCAATGGTTTCATCCA', 'GCTTTTGCAATGTCATTTACTG')
             seq_list += enriched_seqs
     if seq_list == []:

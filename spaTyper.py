@@ -134,15 +134,15 @@ if args.debug:
 #######################
 for i in fasta_list:    
     ## get sequence dictionary
-    qDict = spaTyper.utils.fasta_dict(infile)
+    qDict = spaTyper.utils.fasta_dict(i)
     
     ## find pattern
-    the_out = spaTyper.spa_typing.findPattern(i, seqDict, letDict, typeDict, seqLengths, args.do_enrich, args.debug)
+    the_out = spaTyper.spa_typing.findPattern(qDict, seqDict, letDict, typeDict, seqLengths, args.do_enrich, args.debug)
     
     if args.do_enrich:
         ## when enrich the_out is a list
         print('\t'.join(the_out) + '\n')
     else:
         ## the_out is a dictionary
-        for i in qDict:
+        for i in qDict.keys():
             print('\tSequence: ', i, 'Repeat Type:', the_out[i], + '\n')    
