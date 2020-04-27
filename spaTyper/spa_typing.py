@@ -95,14 +95,17 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
             if not gotit:
                 index += 1
                 adjacent = False
-        
-        ## debugging nessages
-        if debug:
-            print ('## Debug: seq_list rep_order:')
-            print ("Seq: i", i)
-            print ("rep_order: ", rep_order)
-        
-        rep_list.append(rep_order)
+
+        ## if it is not empty
+        if rep_order:        
+            ## debugging nessages
+            if debug:
+                print ('## Debug: seq_list rep_order:')
+                #print ("Seq: i", i)
+                print ("rep_order: ", rep_order)
+
+            rep_list.append(rep_order)
+
     out_list = []
 
     ## debugging nessages
@@ -129,7 +132,7 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
             print ('## Debug: rep_list: (let_out, type_out)')
             print ('rep_list i:', i)
             print ('let_out', let_out)
-            pritn ('type_out', type_out)
+            print ('type_out', type_out)
             
         out_list.append(let_out)
         out_list.append(type_out)
