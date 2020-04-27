@@ -71,7 +71,7 @@ def fasta_dict(fasta_name):
     return seqDict
 
 ####################################################
-def download_file_repeats(folder):
+def download_file_repeats(folder, debug):
     """
     Downloads spa types file from SeqNet/Ridom Spa Server.
     
@@ -83,8 +83,8 @@ def download_file_repeats(folder):
     :type string
     
     :returns: Absolute path to sparepeats.fasta file downloaded.
-     
-    """    
+    """
+
     # check if file is available in folder provided
     reps = os.path.join(folder, 'sparepeats.fasta')
 
@@ -93,11 +93,18 @@ def download_file_repeats(folder):
         
     ## check if previously exists
     if os.path.exists(reps):
+        ## debug message
+        if debug:
+            print ("## Debug: File (sparepeats.fasta) exists in folder")
+
         ## check if previously timestamp generated
         if os.path.isfile(filename_stamp):
             stamp = read_time_stamp(filename_stamp)
             print ("\tA previous download created sparepeats.fasta on: %s" %stamp)
     else:
+        ## debug message
+        if debug:
+            print ("## Debug: Download file: http://spa.ridom.de/dynamic/sparepeats.fasta")
         # downloads
         urllib.request.urlretrieve('http://spa.ridom.de/dynamic/sparepeats.fasta', reps)
     
@@ -111,7 +118,7 @@ def download_file_repeats(folder):
     return (reps)
 
 ####################################################
-def download_file_types(folder):
+def download_file_types(folder, debug):
     """
     Downloads spa types file from SeqNet/Ridom Spa Server.
     
@@ -123,8 +130,8 @@ def download_file_types(folder):
     :type string
     
     :returns: Absolute path to spatypes.txt file downloaded.
-     
-    """    
+    """
+    
     # check if file is available in folder provided
     orders = os.path.join(folder, 'spatypes.txt')
 
@@ -133,11 +140,19 @@ def download_file_types(folder):
         
     ## check if previously exists
     if os.path.exists(orders):
+        ## debug message
+        if debug:
+            print ("## Debug: File (spatypes.txt) exists in folder.")
+
         ## check if previously timestamp generated
         if os.path.isfile(filename_stamp):
             stamp = read_time_stamp(filename_stamp)
             print ("\tA previous download created spatypes.txt on: %s" %stamp)
     else:
+        ## debug message
+        if debug:
+            print ("## Debug: Download file: http://spa.ridom.de/dynamic/spatypes.txt")
+
         # downloads
         urllib.request.urlretrieve('http://spa.ridom.de/dynamic/spatypes.txt', orders)
     

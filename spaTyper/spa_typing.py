@@ -7,7 +7,7 @@ import spaTyper.enricher
 import spaTyper.utils
 
 ####################################################
-def getSpaTypes(reps, orders):
+def getSpaTypes(reps, orders, debug):
     """
     
     .. attention:: Be aware of Copyright
@@ -38,6 +38,7 @@ def getSpaTypes(reps, orders):
         num = i[1:]
         seqDict[seq.upper()] = num
         seqLengths.add(len(seq))
+
     with open(orders) as f:
         for line in f:
             st, pattern = line.rstrip().split(',')
@@ -45,7 +46,7 @@ def getSpaTypes(reps, orders):
     return seqDict, letDict, typeDict, seqLengths
 
 ####################################################
-def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich):
+def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
     """
     Finds the Spa type given the repeat order
     
@@ -56,13 +57,22 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich):
         Give him credit accordingly.
     """
     qDict = spaTyper.utils.fasta_dict(infile)
+
     if enrich:
+        if debug:
+            print ("## Debug: enrich sequences with primer seqs")
+
         seq_list = spaTyper.enricher.enrichSeq.check_primers()
+
     else:
+        if debug:
+            print ("## Debug: use all sequences")
+ 
         seq_list = []
         for i in qDict:
             seq_list.append(qDict[i])
     rep_list = []
+
     for i in seq_list:
         index = 0
         adjacent = False
@@ -85,6 +95,7 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich):
                 adjacent = False
         rep_list.append(rep_order)
     out_list = []
+
     for i in rep_list:
         let_out = ''
         for j in i:
@@ -99,4 +110,5 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich):
             type_out = '-'.join(i)
         out_list.append(let_out)
         out_list.append(type_out)
+
     return out_list

@@ -25,28 +25,18 @@ Will download sparepeats.fasta and spatypes.txt to repository directory if files
 #####################################################
 parser.add_argument('-r', '--repeat_file', action='store', 
                     help='List of spa repeats (http://spa.ridom.de/dynamic/sparepeats.fasta)')
-
 parser.add_argument('-o', '--repeat_order_file', action='store', 
                     help='List spa types and order of repeats (http://spa.ridom.de/dynamic/spatypes.txt)')
-
 parser.add_argument('-d', '--folder', action='store', help='Folder to save downloaded files from Ridom/Spa server')
-
-
-parser.add_argument('-f', '--fasta', action='store', nargs='+', 
-                    help='List of one or more fasta files.')
-
+parser.add_argument('-f', '--fasta', action='store', nargs='+', help='List of one or more fasta files.')
 parser.add_argument('-g', '--glob', action='store', 
                     help='Uses unix style pathname expansion to run spa typing on all files. '
                         'If your shell autoexpands wildcards use -f.')
-
 parser.add_argument("-e", '--do_enrich', action="store_true", default=False, 
                     help="Do PCR product enrichment. [Default: False]")
-
-parser.add_argument("-c", "--clean_output", action="store_true", default=False, 
-                    help="Make output clean")
-
+parser.add_argument("-c", "--clean_output", action="store_true", default=False, help="Make output clean")
 parser.add_argument('--version', action='version', version='%(prog)s 0.2.0')
-
+parser.add_argument('--debug', action='store_true', default=False, help='Developer messages')
 args = parser.parse_args()
 #####################################################
 
@@ -61,6 +51,11 @@ else:
     sys.exit('Please provide spaTyper.py with either a fasta file (-f) or glob (-g).')
 
 print ("Start the identification of repeats in Spa protein:")
+
+## debug messages 
+if args.debug:
+    print ("\n## Debug: List of fasta files:")
+    print (fasta_list)
 
 ### Check if sparepeats and spatypes files are provided and available 
 ## or download them from SeqNet/Ridom Spa Server
@@ -81,7 +76,13 @@ else:
     print ("+ Check or download repeats fasta file in folder: ", args.folder)
     
     ## download file repeats   
-    args.repeat_file = spaTyper.utils.download_file_repeats(args.folder)
+    args.repeat_file = spaTyper.utils.download_file_repeats(args.folder, args.debug)
+
+## debug messages
+if args.debug:
+    print ("\n## Debug: repeat_file:")
+    print (args.repeat_file)
+    print ()
 
 ## spatypes file
 if (args.repeat_order_file):
@@ -94,18 +95,39 @@ else:
     # print message
     print ("+ Check or download repeats types file in folder: ", args.folder)
     ## download file repeats   
-    args.repeat_order_file = spaTyper.utils.download_file_types(args.folder)
+    args.repeat_order_file = spaTyper.utils.download_file_types(args.folder, args.debug)
+
+## debug messages
+if args.debug:
+    print ("\n## Debug: repeat_order_file:")
+    print (args.repeat_order_file)
+    print ()
 
 ## Get the SpaTypes in fasta sequences
 ## getSpaTypes
-seqDict, letDict, typeDict, seqLengths = spaTyper.spa_typing.getSpaTypes(args.repeat_file, args.repeat_order_file)
+seqDict, letDict, typeDict, seqLengths = spaTyper.spa_typing.getSpaTypes(args.repeat_file, args.repeat_order_file, args.debug)
+
+## debug messages
+if args.debug:
+    print ('## Debug: seqDict: Too large to print: See repeat_file for details')
+    print ()
+    #print (seqDict)
+    print ('## Debug: letDict: conversion dictionary')
+    print (letDict)
+    print ()
+    print ('## Debug: typeDict: Too large to print: See repeat_order_file for details')
+    #print (typeDict)
+    print ()
+    print ('## Debug: seqLengths:')
+    print (seqLengths)
+    print ()
 
 ## findPatterns
 if not args.clean_output:
     sys.stdout.write('FILENAME\tEGENOMICS_SPA_TYPE\tRIDOM_SPA_TYPE\n')
 
 for i in fasta_list:
-    the_out = spaTyper.spa_typing.findPattern(i, seqDict, letDict, typeDict, seqLengths, args.do_enrich)
+    the_out = spaTyper.spa_typing.findPattern(i, seqDict, letDict, typeDict, seqLengths, args.do_enrich, args.debug)
     if not args.clean_output:
         sys.stdout.write('Spa type:\t' + '\t'.join(the_out) + '\n')
     else:
