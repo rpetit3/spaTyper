@@ -55,7 +55,7 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich):
 
         Give him credit accordingly.
     """
-    qDict = fasta_dict(infile)
+    qDict = spaTyper.utils.fasta_dict(infile)
     if enrich:
         seq_list = spaTyper.enricher.enrichSeq.check_primers()
     else:

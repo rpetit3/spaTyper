@@ -1,12 +1,32 @@
 #!/usr/bin/env python3
 
+import os
 import sys
 import string
 from itertools import groupby
+import urllib.request
+import time
+from datetime import datetime
 
 """ 
 This script contains several useful functions employed along the spa_typing code.
 """
+
+####################################################
+def create_folder(pathProvided):
+    ## create subfolder  ##
+    access_rights = 0o755
+
+    # define the access rights
+    try:
+        os.mkdir(pathProvided, access_rights)
+    except OSError:
+        #print ("\tDirectory %s already exists" %path)
+        return pathProvided
+    else:
+        print ("\tSuccessfully created the directory %s " %pathProvided)
+
+    return pathProvided
 
 ####################################################
 def revseq(seq):

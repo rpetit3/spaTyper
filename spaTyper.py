@@ -5,6 +5,7 @@ import glob
 import sys
 
 import spaTyper.spa_typing
+import spaTyper.utils
 
 #####################################################
 parser = argparse.ArgumentParser(prog='spaTyper.py', formatter_class=argparse.RawDescriptionHelpFormatter, 
@@ -27,6 +28,9 @@ parser.add_argument('-r', '--repeat_file', action='store',
 
 parser.add_argument('-o', '--repeat_order_file', action='store', 
                     help='List spa types and order of repeats (http://spa.ridom.de/dynamic/spatypes.txt)')
+
+parser.add_argument('-d', '--folder', action='store', help='Folder to save downloaded files from Ridom/Spa server')
+
 
 parser.add_argument('-f', '--fasta', action='store', nargs='+', 
                     help='List of one or more fasta files.')
@@ -68,6 +72,10 @@ if (args.repeat_file):
 else:
     if not (args.folder):
         args.folder =  os.path.dirname(os.path.realpath(__file__))
+    else:
+        args.folder = os.path.abspath(args.folder)
+        print ("+ Create folder: ", args.folder)
+        spaTyper.utils.create_folder(args.folder)
     
     # print message
     print ("+ Check or download repeats fasta file in folder: ", args.folder)
