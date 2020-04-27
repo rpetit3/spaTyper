@@ -58,6 +58,7 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
     """
     qDict = spaTyper.utils.fasta_dict(infile)
 
+    ### create list of sequences: either enrich or all sequences
     if enrich:
         if debug:
             print ("## Debug: enrich sequences with primer seqs")
@@ -71,8 +72,9 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
         seq_list = []
         for i in qDict:
             seq_list.append(qDict[i])
+    
+    ## create repeat identification
     rep_list = []
-
     for i in seq_list:
         index = 0
         adjacent = False
@@ -93,9 +95,22 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
             if not gotit:
                 index += 1
                 adjacent = False
+        
+        ## debugging nessages
+        if debug:
+            print ('## Debug: seq_list rep_order:')
+            print ("Seq: i", i)
+            print ("rep_order: ", rep_order)
+        
         rep_list.append(rep_order)
     out_list = []
 
+    ## debugging nessages
+    if debug:
+        print ('## Debug: rep_list:')
+        print (rep_list)
+
+    ## 
     for i in rep_list:
         let_out = ''
         for j in i:
@@ -108,6 +123,14 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
             type_out = typeDict['-'.join(i)]
         else:
             type_out = '-'.join(i)
+            
+         ## debugging nessages
+        if debug:
+            print ('## Debug: rep_list: (let_out, type_out)')
+            print ('rep_list i:', i)
+            print ('let_out', let_out)
+            pritn ('type_out', type_out)
+            
         out_list.append(let_out)
         out_list.append(type_out)
 
