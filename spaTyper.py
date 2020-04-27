@@ -15,10 +15,11 @@ spaTyper.py: Get spa types
 Version: 0.2.0
 License: GPLv3
 
-USAGE: python spaTyper.py fasta_file.fa
+USAGE: python spaTyper.py -f fasta_file.fasta
 Prints spa type to stdout
 
-Will download sparepeats.fasta and spatypes.txt to repository directory if files not provided or already in directory.
+Will download sparepeats.fasta and spatypes.txt to repository directory 
+if files not provided or already in directory.
 
 ''', epilog="Original code: mjsull. Modified by: JFSanchezHerrero")
 
@@ -34,13 +35,14 @@ parser.add_argument('-g', '--glob', action='store',
                         'If your shell autoexpands wildcards use -f.')
 parser.add_argument("-e", '--do_enrich', action="store_true", default=False, 
                     help="Do PCR product enrichment. [Default: False]")
-parser.add_argument("-c", "--clean_output", action="store_true", default=False, help="Make output clean")
 parser.add_argument('--version', action='version', version='%(prog)s 0.2.0')
 parser.add_argument('--debug', action='store_true', default=False, help='Developer messages')
 args = parser.parse_args()
 #####################################################
 
+#######################
 ## Let's go
+#######################
 if not args.glob is None and not args.fasta is None:
     sys.exit('Please provide script with either a list of one or more fasta files, or a glob.')
 elif not args.glob is None:
@@ -57,9 +59,10 @@ if args.debug:
     print ("\n## Debug: List of fasta files:")
     print (fasta_list)
 
+#######################
 ### Check if sparepeats and spatypes files are provided and available 
 ## or download them from SeqNet/Ridom Spa Server
-
+#######################
 ## Sparepeats file
 if (args.repeat_file):
     args.repeat_file = os.path.abspath(args.repeat_file)
@@ -84,7 +87,9 @@ if args.debug:
     print (args.repeat_file)
     print ()
 
+#######################
 ## spatypes file
+#######################
 if (args.repeat_order_file):
     args.repeat_order_file = os.path.abspath(args.repeat_order_file)
     print ("+ Repeat types file provided: ", args.repeat_order_file)
@@ -103,8 +108,10 @@ if args.debug:
     print (args.repeat_order_file)
     print ()
 
-## Get the SpaTypes in fasta sequences
+#######################
 ## getSpaTypes
+#######################
+## Get the SpaTypes in fasta sequences
 seqDict, letDict, typeDict, seqLengths = spaTyper.spa_typing.getSpaTypes(args.repeat_file, args.repeat_order_file, args.debug)
 
 ## debug messages
@@ -122,13 +129,20 @@ if args.debug:
     print (seqLengths)
     print ()
 
-## findPatterns
-if not args.clean_output:
-    sys.stdout.write('FILENAME\tEGENOMICS_SPA_TYPE\tRIDOM_SPA_TYPE\n')
-
-for i in fasta_list:
+#######################
+## findPatterns for each fasta file
+#######################
+for i in fasta_list:    
+    ## get sequence dictionary
+    qDict = spaTyper.utils.fasta_dict(infile)
+    
+    ## find pattern
     the_out = spaTyper.spa_typing.findPattern(i, seqDict, letDict, typeDict, seqLengths, args.do_enrich, args.debug)
-    if not args.clean_output:
-        sys.stdout.write('Spa type:\t' + '\t'.join(the_out) + '\n')
+    
+    if args.do_enrich:
+        ## when enrich the_out is a list
+        print('\t'.join(the_out) + '\n')
     else:
-        sys.stdout.write('\t'.join(the_out) + '\n')                
+        ## the_out is a dictionary
+        for i in qDict:
+            print('\tSequence: ', i, 'Repeat Type:', the_out[i], + '\n')    

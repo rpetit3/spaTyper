@@ -43,10 +43,127 @@ def getSpaTypes(reps, orders, debug):
         for line in f:
             st, pattern = line.rstrip().split(',')
             typeDict[pattern] = st
+            
     return seqDict, letDict, typeDict, seqLengths
 
+
 ####################################################
-def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
+def findPattern(qDict, seqDict, letDict, typeDict, seqLengths, enrich, debug):
+    """
+    Finds the Spa type given the repeat order
+    
+    .. attention:: Be aware of Copyright
+
+        The code implemented here was retrieved and modified from spa_typing (https://github.com/mjsull/spa_typing)
+
+        Give him credit accordingly.
+    """
+    
+    ### create list of sequences: either enrich or all sequences
+    if enrich:
+        if debug:
+            print ("## Debug: enrich sequences with primer seqs")
+        
+        rep_list = []
+        seq_list = spaTyper.enricher.enrichSeq.check_primers()
+        for i in seq_list:
+            pattern = findPattern_sequence(i, seqDict, seqLengths, debug)
+            if pattern:
+                type_return = findPattern_type(pattern, letDict, typeDict)
+                rep_list.append(type_return)
+    else:
+        if debug:
+            print ("## Debug: use all sequences")
+        
+        dict_repeats = {}
+        for i in qDict:
+            pattern = findPattern_sequence(qDict[i], seqDict, seqLengths, debug)
+            if pattern:
+                type_return = findPattern_type(pattern, letDict, typeDict)
+                dict_repeats[i] = type_return
+                
+        return (dict_repeats)
+
+####################################################
+def findPattern_sequence(seq, seqDict, seqLengths, debug):
+    """
+    Identify the pattern of repeats per sequence
+    
+    .. attention:: Be aware of Copyright
+
+        The code implemented here was retrieved and modified from spa_typing (https://github.com/mjsull/spa_typing)
+
+        Give him credit accordingly.
+    """
+    
+    index = 0
+    adjacent = False
+    rep_order = []
+    while index <= len(seq):
+        gotit = False
+        for j in seqLengths:
+            if i[index:index+j] in seqDict:
+                if adjacent or rep_order == []:
+                    rep_order.append(seqDict[i[index:index+j]])
+                else:
+                    rep_order.append('xx')
+                    rep_order.append(seqDict[i[index:index+j]])
+                index += j
+                gotit = True
+                adjacent = True
+                break
+        if not gotit:
+            index += 1
+            adjacent = False
+
+    ## debugging nessages
+    if debug:
+        print ('## Debug: rep_order:')
+        print ("rep_order: ", rep_order)
+
+    ## if it is not empty
+    if rep_order:        
+        return (rep_order)
+    else:
+        return()
+
+####################################################
+def findPattern_type(pattern, letDict, typeDict):
+    """
+    Identifies the SPA repeat type
+    
+    .. attention:: Be aware of Copyright
+
+        The code implemented here was retrieved and modified from spa_typing (https://github.com/mjsull/spa_typing)
+
+        Give him credit accordingly.
+    
+    """
+   ## 
+    let_out = ''
+    for j in pattern:
+        if j in letDict:
+            let_out += letDict[j] + '-'
+        else:
+            let_out += 'xx-'
+    let_out = let_out[:-1]
+    if '-'.join(pattern) in typeDict:
+        type_out = typeDict['-'.join(pattern)]
+    else:
+        type_out = '-'.join(pattern)
+        
+     ## debugging nessages
+    if debug:
+        print ('## Debug: rep_list: (let_out, type_out)')
+        print ('rep_list pattern:', pattern)
+        print ('let_out', let_out)
+        print ('type_out', type_out)
+            
+    string_return = let_out + '::' + type_out
+    return (string_return)
+
+####################################################
+def OLD_findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
     """
     Finds the Spa type given the repeat order
     
@@ -106,14 +223,17 @@ def findPattern(infile, seqDict, letDict, typeDict, seqLengths, enrich, debug):
 
             rep_list.append(rep_order)
 
-    out_list = []
-
-    ## debugging nessages
+    ## return if empty
+    if not rep_list:
+        return('NA')
+    
+        ## debugging nessages
     if debug:
         print ('## Debug: rep_list:')
         print (rep_list)
 
-    ## 
+    ## Identify the repeat type
+    out_list = []
     for i in rep_list:
         let_out = ''
         for j in i:
