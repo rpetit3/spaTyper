@@ -153,4 +153,4 @@ for i in fasta_list:
         for j in qDict.keys():
             if j in the_out:
                  splitted = the_out[j].split('::')
-                 print("Sequence name: ",j, "Repeats:", splitted[0], "Repeat Type:", splitted[1], '\n')    
+                 print("Sequence name: ",j, "Repeats:", splitted[2], "Repeat Type:", splitted[1], '\n')    
