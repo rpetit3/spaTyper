@@ -59,6 +59,35 @@ CAACGCAATGGTTTCATCCA, GCTTTTGCAATGTCATTTACTG
 
 If an enriched sequence is found by a primer set, subsequent primer sets are not used.
 
+## Load it as a module
+
+This scripts can be loaded and installed as a python module. Python 3 version only.
+
+```
+import spaTyper
+
+## download file repeats   
+repeat_file = spaTyper.utils.download_file_repeats(folder, False)
+
+## download file repeats   
+repeat_order_file = spaTyper.utils.download_file_types(folder, False)
+
+## Get the SpaTypes in fasta sequences
+seqDict, letDict, typeDict, seqLengths = spaTyper.spa_typing.getSpaTypes(repeat_file, repeat_order_file, False)
+
+## read fasta file
+fasta_file = "my_genome.fasta"
+qDict = spaTyper.utils.fasta_dict(fasta_file)
+    
+## find pattern
+for i in qDict.keys():
+	pattern = findPattern_sequence(qDict[i], seqDict, seqLengths, debug)
+	if pattern:
+	    type_return = findPattern_type(pattern, letDict, typeDict, debug)
+        splitted = type_return.split('::')
+        print("Sequence name: ",j, "Repeats:", splitted[2], "Repeat Type:", splitted[1], '\n')    
+
+```
 
 ## Copyright
 Original code written by mjsull.
