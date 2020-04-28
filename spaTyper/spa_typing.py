@@ -155,7 +155,8 @@ def findPattern_type(pattern, letDict, typeDict, debug):
     
     the codification of repeats, the type of repeat identified, the repeat order pattern
     
-    Ex. 
+    Ex. D2-K-G-F-M-K-M-M-M-J-Q :: t1180 :: 03-16-12-21-17-16-17-17-17-23-24
+
     
     .. attention:: Be aware of Copyright
 
@@ -184,5 +185,5 @@ def findPattern_type(pattern, letDict, typeDict, debug):
         print ('let_out', let_out)
         print ('type_out', type_out)
             
-    string_return = let_out + '::' + type_out + '::' + pattern
+    string_return = let_out + '::' + type_out + '::' + '-'.join(pattern)
     return (string_return)
