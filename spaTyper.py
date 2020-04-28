@@ -12,14 +12,15 @@ parser = argparse.ArgumentParser(prog='spaTyper.py', formatter_class=argparse.Ra
                                  description='''
 spaTyper.py: Get spa types
 
-Version: 0.2.0
+Version: 0.2.1
 License: GPLv3
 
 USAGE: python spaTyper.py -f fasta_file.fasta
 Prints spa type to stdout
 
-Will download sparepeats.fasta and spatypes.txt to repository directory 
-if files not provided or already in directory.
+It will download sparepeats.fasta and spatypes.txt to repository directory 
+if files not provided or already in directory. It can be loaded as a python
+module. Python 3 version only.
 
 ''', epilog="Original code: mjsull. Modified by: JFSanchezHerrero")
 
@@ -35,7 +36,7 @@ parser.add_argument('-g', '--glob', action='store',
                         'If your shell autoexpands wildcards use -f.')
 parser.add_argument("-e", '--do_enrich', action="store_true", default=False, 
                     help="Do PCR product enrichment. [Default: False]")
-parser.add_argument('--version', action='version', version='%(prog)s 0.2.0')
+parser.add_argument('--version', action='version', version='%(prog)s 0.2.1')
 parser.add_argument('--debug', action='store_true', default=False, help='Developer messages')
 args = parser.parse_args()
 #####################################################
@@ -144,5 +145,5 @@ for i in fasta_list:
         print('\t'.join(the_out) + '\n')
     else:
         ## the_out is a dictionary
-        for i in qDict.keys():
-            print('\tSequence: ', i, 'Repeat Type:', the_out[i], + '\n')    
+        for j in qDict.keys():
+            print('\tSequence: ', j, 'Repeat Type:', the_out[j], + '\n')    
