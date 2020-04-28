@@ -69,7 +69,7 @@ def findPattern(qDict, seqDict, letDict, typeDict, seqLengths, enrich, debug):
         for i in seq_list:
             pattern = findPattern_sequence(i, seqDict, seqLengths, debug)
             if pattern:
-                type_return = findPattern_type(pattern, letDict, typeDict)
+                type_return = findPattern_type(pattern, letDict, typeDict, debug)
                 rep_list.append(type_return)
         
         return (seq_list)
@@ -82,9 +82,9 @@ def findPattern(qDict, seqDict, letDict, typeDict, seqLengths, enrich, debug):
         for i in qDict.keys():
             pattern = findPattern_sequence(qDict[i], seqDict, seqLengths, debug)
             if pattern:
-                type_return = findPattern_type(pattern, letDict, typeDict)
+                type_return = findPattern_type(pattern, letDict, typeDict, debug)
                 dict_repeats[i] = type_return
-                
+               
         return (dict_repeats)
 
 ####################################################
@@ -105,12 +105,12 @@ def findPattern_sequence(seq, seqDict, seqLengths, debug):
     while index <= len(seq):
         gotit = False
         for j in seqLengths:
-            if i[index:index+j] in seqDict:
+            if seq[index:index+j] in seqDict:
                 if adjacent or rep_order == []:
-                    rep_order.append(seqDict[i[index:index+j]])
+                    rep_order.append(seqDict[seq[index:index+j]])
                 else:
                     rep_order.append('xx')
-                    rep_order.append(seqDict[i[index:index+j]])
+                    rep_order.append(seqDict[seq[index:index+j]])
                 index += j
                 gotit = True
                 adjacent = True
@@ -121,8 +121,9 @@ def findPattern_sequence(seq, seqDict, seqLengths, debug):
 
     ## debugging nessages
     if debug:
-        print ('## Debug: rep_order:')
-        print ("rep_order: ", rep_order)
+        if rep_order:
+            print ('## Debug: rep_order:')
+            print ("rep_order: ", rep_order)
 
     ## if it is not empty
     if rep_order:        
@@ -131,7 +132,7 @@ def findPattern_sequence(seq, seqDict, seqLengths, debug):
         return()
 
 ####################################################
-def findPattern_type(pattern, letDict, typeDict):
+def findPattern_type(pattern, letDict, typeDict, debug):
     """
     Identifies the SPA repeat type
     

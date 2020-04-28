@@ -139,11 +139,18 @@ for i in fasta_list:
     
     ## find pattern
     the_out = spaTyper.spa_typing.findPattern(qDict, seqDict, letDict, typeDict, seqLengths, args.do_enrich, args.debug)
-    
+
+
+    print ('\n-----------------')
+    print ("Results:")
+    print ('-----------------')    
     if args.do_enrich:
         ## when enrich the_out is a list
         print('\t'.join(the_out) + '\n')
     else:
+
         ## the_out is a dictionary
         for j in qDict.keys():
-            print('\tSequence: ', j, 'Repeat Type:', the_out[j], + '\n')    
+            if j in the_out:
+                 splitted = the_out[j].split('::')
+                 print("Sequence name: ",j, "Repeats:", splitted[0], "Repeat Type:", splitted[1], '\n')    
