@@ -1,6 +1,5 @@
 ### spaTyper.py: Get spa types
 
-
 Version: 0.2.1
 
 License: GPLv3
