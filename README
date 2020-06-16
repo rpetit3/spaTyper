@@ -1,6 +1,6 @@
 ### spaTyper.py: Get spa types
 
-Version: 0.2.1
+Version: 0.2.2
 
 License: GPLv3
 
@@ -69,14 +69,14 @@ import spaTyper
 repeat_file = spaTyper.utils.download_file_repeats(folder, False)
 
 ## download file repeats   
-repeat_order_file = spaTyper.utils.download_file_types(folder, False)
+repeat_order_file = scripts.utils.download_file_types(folder, False)
 
 ## Get the SpaTypes in fasta sequences
-seqDict, letDict, typeDict, seqLengths = spaTyper.spa_typing.getSpaTypes(repeat_file, repeat_order_file, False)
+seqDict, letDict, typeDict, seqLengths = scripts.spa_typing.getSpaTypes(repeat_file, repeat_order_file, False)
 
 ## read fasta file
 fasta_file = "my_genome.fasta"
-qDict = spaTyper.utils.fasta_dict(fasta_file)
+qDict = scripts.utils.fasta_dict(fasta_file)
     
 ## find pattern
 for i in qDict.keys():

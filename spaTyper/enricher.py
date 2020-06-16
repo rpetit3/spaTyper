@@ -14,7 +14,7 @@ def check_primers(qDict):
         Give him credit accordingly.
     """
 
-    # 
+    seq_list = []
     for i in qDict.keys():
         enriched_seqs = enrichSeq(qDict[i].upper(), 'TAAAGACGATCCTTCGGTGAG', 'CAGCAGTAGTGCCGTTTGCTT')
         seq_list += enriched_seqs

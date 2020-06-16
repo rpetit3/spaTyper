@@ -67,7 +67,7 @@ def findPattern(qDict, seqDict, letDict, typeDict, seqLengths, enrich, debug):
             print ("## Debug: enrich sequences with primer seqs")
         
         rep_list = []
-        seq_list = spaTyper.enricher.enrichSeq.check_primers(qDict)
+        seq_list = spaTyper.enricher.check_primers(qDict)
         for i in seq_list:
             pattern = findPattern_sequence(i, seqDict, seqLengths, debug)
             if pattern:
@@ -104,6 +104,11 @@ def findPattern_sequence(seq, seqDict, seqLengths, debug):
     index = 0
     adjacent = False
     rep_order = []
+    
+    if debug:
+        print ("seq")
+        print (seq)
+        
     while index <= len(seq):
         gotit = False
         for j in seqLengths:
@@ -139,9 +144,9 @@ def findPattern_type(pattern, letDict, typeDict, debug):
     Identifies the SPA repeat type
     
     Given a list of repeats, for each sequence, it retrieves the type of repeat.
-    letDict and typeDict are created by :func:`spaTyper.spa_typing.getSpaTypes`
+    letDict and typeDict are created by :func:`scripts.spa_typing.getSpaTypes`
     
-    :param pattern: Repeat list identified for each sequence by :func:`spaTyper.spa_typing.findPattern_sequence`
+    :param pattern: Repeat list identified for each sequence by :func:`scripts.spa_typing.findPattern_sequence`
     :param letDict: Dictionary containing codification information from the repeats
     :param typeDict: Dictionary containing information from types of repeats file
     :param debug: True/False for debugging messages

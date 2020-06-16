@@ -39,7 +39,7 @@ def revseq(seq):
     
         Give him credit accordingly.  
     """
-    transtab = string.maketrans('atcgATCG', 'tagcTAGC')
+    transtab = str.maketrans('atcgATCG', 'tagcTAGC')
     seq = seq[::-1]
     seq = seq.translate(transtab)
     return seq
