@@ -1,0 +1,13 @@
+## create distribution files
+python setup.py sdist bdist_wheel
+
+
+## create .pypirc file
+
+[distutils] 
+index-servers=pypi
+[pypi] 
+repository = https://upload.pypi.org/legacy/ 
+username =jfsanchezherrero
+
+## Upload using twine
