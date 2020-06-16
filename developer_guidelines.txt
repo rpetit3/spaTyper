@@ -1,14 +1,20 @@
+## clean distribution packages
+rm -r build/*
+rm -r dist/*
+rm -r spaTyper.egg-info/*
+
 ## create distribution files
 python setup.py sdist bdist_wheel
 
-
 ## create .pypirc file
 
-[distutils] 
-index-servers=pypi
-[pypi] 
-repository = https://upload.pypi.org/legacy/ 
-username =jfsanchezherrero
+$ nano .pypirc
+
+ [distutils] 
+ index-servers=pypi
+ [pypi] 
+ repository = https://upload.pypi.org/legacy/ 
+ username =jfsanchezherrero
 
 ## Upload using twine
 python -m twine upload dist/*
