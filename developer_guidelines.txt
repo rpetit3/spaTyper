@@ -11,3 +11,4 @@ repository = https://upload.pypi.org/legacy/
 username =jfsanchezherrero
 
 ## Upload using twine
+python -m twine upload dist/*
