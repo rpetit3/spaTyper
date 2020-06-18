@@ -60,34 +60,35 @@ def findPattern(qDict, seqDict, letDict, typeDict, seqLengths, enrich, debug):
 
         Give him credit accordingly.
     """
-    
+    dict_repeats = {}
+        
     ### create list of sequences: either enrich or all sequences
     if enrich:
         if debug:
             print ("## Debug: enrich sequences with primer seqs")
         
-        rep_list = []
         seq_list = spaTyper.enricher.check_primers(qDict)
         for i in seq_list:
             pattern = findPattern_sequence(i, seqDict, seqLengths, debug)
             if pattern:
                 type_return = findPattern_type(pattern, letDict, typeDict, debug)
-                rep_list.append(type_return)
-        
-        return (seq_list)
-        
+                dict_repeats[type_return] = i
     else:
         if debug:
             print ("## Debug: use all sequences")
         
-        dict_repeats = {}
-        for i in qDict.keys():
-            pattern = findPattern_sequence(qDict[i], seqDict, seqLengths, debug)
+        for keys, seqs in qDict.items():
+            pattern = findPattern_sequence(seqs, seqDict, seqLengths, debug)
             if pattern:
                 type_return = findPattern_type(pattern, letDict, typeDict, debug)
-                dict_repeats[i] = type_return
+                dict_repeats[keys] = type_return
+            else:
+                pattern_revseq = findPattern_sequence(spaTyper.utils.revseq(seqs), seqDict, seqLengths, debug)
+                if pattern_revseq:
+                    type_return = findPattern_type(pattern_revseq, letDict, typeDict, debug)
+                    dict_repeats[keys] = type_return
                
-        return (dict_repeats)
+    return (dict_repeats)
 
 ####################################################
 def findPattern_sequence(seq, seqDict, seqLengths, debug):
@@ -105,14 +106,16 @@ def findPattern_sequence(seq, seqDict, seqLengths, debug):
     adjacent = False
     rep_order = []
     
-    if debug:
-        print ("seq")
-        print (seq)
-        
     while index <= len(seq):
         gotit = False
         for j in seqLengths:
             if seq[index:index+j] in seqDict:
+                
+                if debug:
+                    print ("## Debug: Match")
+                    print (seq[index:index+j])
+                    print (seqDict[seq[index:index+j]])
+
                 if adjacent or rep_order == []:
                     rep_order.append(seqDict[seq[index:index+j]])
                 else:
@@ -126,11 +129,11 @@ def findPattern_sequence(seq, seqDict, seqLengths, debug):
             index += 1
             adjacent = False
 
+
     ## debugging nessages
     if debug:
-        if rep_order:
-            print ('## Debug: rep_order:')
-            print ("rep_order: ", rep_order)
+        print ('## Debug: rep_order:')
+        print ("rep_order: ", rep_order)
 
     ## if it is not empty
     if rep_order:        

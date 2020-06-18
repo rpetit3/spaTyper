@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(prog='spaTyper', formatter_class=argparse.RawDe
                                  description='''
 spaTyper.py: Get spa types
 
-Version: 0.2.2
+Version: 0.3
 License: GPLv3
 
 USAGE: python spaTyper.py -f fasta_file.fasta
@@ -139,7 +139,8 @@ for i in fasta_list:
         print ("## Debug: fasta file")
         print (fasta_file)
         print ("## Debug: qDict")
-        print (qDict)
+        #print (qDict)
+        print ("Too big to be included...")
     
     ## find pattern
     the_out = spaTyper.spa_typing.findPattern(qDict, seqDict, letDict, typeDict, seqLengths, args.do_enrich, args.debug)
@@ -155,7 +156,14 @@ for i in fasta_list:
 
     if args.do_enrich:
         ## when enrich the_out is a list
-        print('\t'.join(the_out) + '\n')
+    
+        ## the_out is a dictionary
+        for j in the_out.keys():
+            splitted = j.split('::')
+            print("Repeats:", splitted[2], "Repeat Type:", splitted[1], '\n')
+            print ("Sequence:")
+            print (the_out[j])   
+                
     else:
         ## the_out is a dictionary
         for j in qDict.keys():

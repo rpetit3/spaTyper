@@ -6,7 +6,7 @@ with open("README", "r") as fh:
 
 setuptools.setup(
     name="spaTyper",
-    version="0.2.2",
+    version="0.3",
     scripts=glob.glob('main/*'),
     author="Mitchell Sullivan; Jose F. Sanchez-Herrero",
     author_email="jfbioinformatics@gmail.com",
