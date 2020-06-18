@@ -18,3 +18,8 @@ $ nano .pypirc
 
 ## Upload using twine
 python -m twine upload dist/*
+
+
+## references
+https://dzone.com/articles/executable-package-pip-install
+https://packaging.python.org/tutorials/packaging-projects/
