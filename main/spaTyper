@@ -38,8 +38,15 @@ parser.add_argument("-e", '--do_enrich', action="store_true", default=False,
                     help="Do PCR product enrichment. [Default: False]")
 parser.add_argument('--version', action='version', version='%(prog)s 0.2.1')
 parser.add_argument('--debug', action='store_true', default=False, help='Developer messages')
+parser.add_argument('--info', action='store_true', default=False, help='Prints additional information')
 args = parser.parse_args()
 #####################################################
+
+#######################
+## Print extra info
+if args.info:
+    print (spaTyper.utils.extra_info())
+    exit()
 
 #######################
 ## Let's go

@@ -13,6 +13,27 @@ This script contains several useful functions employed along the spa_typing code
 """
 
 ####################################################
+def extra_info():
+    
+    information = '''
+    
+    spaTyper: https://github.com/HCGB-IGTP/spaTyper
+    
+    Typification of the repeat region of the Staphylococcus protein A gene (spa). Repeats are assigned a 
+    numerical code and the spa-type is deduced from the order of specific repeats. 
+    
+    It prints spa type to stdout - egenomics letter combination and the ridom spa type. 
+    If multiple pcr products are found will print spa types for each product.
+
+    It will download sparepeats.fasta and spatypes.txt from the ridom server (https://spaserver2.ridom.de/) 
+    to repository directory if files not provided.
+
+    Original code: mjsull. Modified by: JFSanchezHerrero
+    '''
+    
+    return (information)
+
+####################################################
 def create_folder(pathProvided):
     ## create subfolder  ##
     access_rights = 0o755
