@@ -2,6 +2,7 @@
 [![DOI](https://zenodo.org/badge/258175615.svg)](https://zenodo.org/badge/latestdoi/258175615)
 
 
+
 Version: 0.3.1
 ```
 USAGE: spaTyper [-h] [-r REPEAT_FILE] [-o REPEAT_ORDER_FILE] [-d FOLDER] [-f FASTA [FASTA ...]] [-g GLOB] [-e] [--version] [--debug]
@@ -84,4 +85,9 @@ This scripts can be loaded and installed as a python module. Python 3 version on
 
 ## Copyright
 Original code written by mjsull (https://github.com/mjsull/spa_typing)
+
 Jose F. Sanchez-Herrero updated the code, change to python3, and set to use it as a module
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4063625.svg)](https://doi.org/10.5281/zenodo.4063625)
+
+
