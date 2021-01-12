@@ -36,6 +36,8 @@ parser.add_argument('-g', '--glob', action='store',
                         'If your shell autoexpands wildcards use -f.')
 parser.add_argument("-e", '--do_enrich', action="store_true", default=False, 
                     help="Do PCR product enrichment. [Default: False]")
+
+parser.add_argument('--output', action='store', help='Provide a name for the output file. Default: Standard out')
 parser.add_argument('--version', action='version', version='%(prog)s 0.2.1')
 parser.add_argument('--debug', action='store_true', default=False, help='Developer messages')
 parser.add_argument('--info', action='store_true', default=False, help='Prints additional information')
@@ -135,6 +137,17 @@ if args.debug:
 #######################
 ## findPatterns for each fasta file
 #######################
+print ('\n-----------------')
+print ("Results:")
+if (args.output):
+    args.output = os.path.abspath(args.output)
+    print ("Printing in file:")
+    print (args.output)
+    file_hd = open(args.output, 'w')
+    file_hd.write("Sequence name\tRepeats\tType\n")
+else:
+    print("Sequence name\tRepeats\tType")
+
 for i in fasta_list:    
     ## get fasta file
     fasta_file = os.path.abspath(i)
@@ -151,10 +164,6 @@ for i in fasta_list:
     
     ## find pattern
     the_out = spaTyper.spa_typing.findPattern(qDict, seqDict, letDict, typeDict, seqLengths, args.do_enrich, args.debug)
-
-    print ('\n-----------------')
-    print ("Results:")
-    print ('-----------------')    
 
     ## debug messages
     if args.debug:
@@ -176,4 +185,13 @@ for i in fasta_list:
         for j in qDict.keys():
             if j in the_out:
                  splitted = the_out[j].split('::')
-                 print("Sequence name: ",j, "Repeats:", splitted[2], "Repeat Type:", splitted[1], '\n')    
+                 
+                 if (args.output):
+                     file_hd.write(j + '\t' + splitted[2] + '\t' + splitted[1] + '\n')
+                 else:
+                    print(j + '\t' + splitted[2] + '\t' + splitted[1])
+
+if (args.output):
+    file_hd.close()
+                 
+print ('-----------------')    
