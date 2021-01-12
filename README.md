@@ -3,7 +3,7 @@
 
 
 
-Version: 0.3.2
+Version: 0.3.3
 ```
 USAGE: spaTyper [-h] [-r REPEAT_FILE] [-o REPEAT_ORDER_FILE] [-d FOLDER] [-f FASTA [FASTA ...]] [-g GLOB] [--output OUTPUT] [-e] [--version] [--debug]
 ```
