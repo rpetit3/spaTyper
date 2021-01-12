@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(prog='spaTyper', formatter_class=argparse.RawDe
                                  description='''
 spaTyper.py: Get spa types
 
-Version: 0.3
+Version: 0.3.2b
 License: GPLv3
 
 USAGE: python spaTyper.py -f fasta_file.fasta

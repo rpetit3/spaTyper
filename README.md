@@ -5,7 +5,7 @@
 
 Version: 0.3.2
 ```
-USAGE: spaTyper [-h] [-r REPEAT_FILE] [-o REPEAT_ORDER_FILE] [-d FOLDER] [-f FASTA [FASTA ...]] [-g GLOB] [-e] [--version] [--debug]
+USAGE: spaTyper [-h] [-r REPEAT_FILE] [-o REPEAT_ORDER_FILE] [-d FOLDER] [-f FASTA [FASTA ...]] [-g GLOB] [--output OUTPUT] [-e] [--version] [--debug]
 ```
 
 Prints spa type to stdout - egenomics letter combination and then the ridom spa type.
@@ -21,6 +21,7 @@ optional arguments:
 -f FASTA [FASTA ...], --fasta FASTA [FASTA ...] List of one or more fasta files.
 -g GLOB, --glob GLOB  Uses unix style pathname expansion to run spa typing on all files. If your shell autoexpands wildcards use -f.
 -e, --do_enrich       Do PCR product enrichment. [Default: False]
+--output OUTPUT	Provide an output file or print by default using standard out.
 --version             show program's version number and exit
 --debug               Developer messages
 ```
