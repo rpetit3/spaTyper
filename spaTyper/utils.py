@@ -189,9 +189,12 @@ def download_file_types(folder, debug):
 ####################################################
 def print_time_stamp (out):
     """Prints out timestamp in a file provided. Format: time.time()"""
-    timefile = open(out, 'w')    
-    string2write = str(time.time())
-    timefile.write(string2write)
+    try:
+        with open(out, 'wt') as timefile:   
+            string2write = str(time.time())
+            timefile.write(string2write)
+    except IOError:
+        print ("\tUnable to write time stamp", file=sys.stderr)
     return()
 
 ####################################################
